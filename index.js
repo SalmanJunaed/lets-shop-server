@@ -28,6 +28,21 @@ async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect()
+
+
+        const reviewCollection = client.db('letsShopDB').collection('reviews');
+        const productCollection = client.db('letsShopDB').collection('products');
+
+        app.get('/products', async (req, res) => {
+            const result = await productCollection.find().toArray();
+            res.send(result);
+        })
+
+        app.get('/reviews', async (req, res) => {
+            const result = await reviewCollection.find().toArray();
+            res.send(result);
+        })
+
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 })
         console.log(
