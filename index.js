@@ -30,8 +30,9 @@ async function run() {
         await client.connect()
 
 
-        const reviewCollection = client.db('letsShopDB').collection('reviews');
+        const reviewCollection = client.db('letsShopDB').collection('reviews'); 
         const productCollection = client.db('letsShopDB').collection('products');
+        const usersCollection = client.db('letsShopDB').collection('users');
 
         app.get('/products', async (req, res) => {
             const result = await productCollection.find().toArray();
@@ -42,6 +43,8 @@ async function run() {
             const result = await reviewCollection.find().toArray();
             res.send(result);
         })
+
+        
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 })
