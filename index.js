@@ -44,7 +44,18 @@ async function run() {
             res.send(result);
         })
 
-        
+        // User Login POST 
+        // app.post('/users', async (req, res) =>{
+        //     const user = req.body;
+        //     const query = {email: user.email}
+        //     const existingUser = await userCollection.findOne(query);
+        //     if(existingUser){
+        //         return res.send({massage: 'user already exist', insertedId: null})
+        //     }
+        //     const result = await userCollection.insertOne(user);
+        //     res.send(result);
+        // })
+
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 })
