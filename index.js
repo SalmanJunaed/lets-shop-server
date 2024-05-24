@@ -10,7 +10,7 @@ app.use(express.json())
 // DB_USER:LetsShop
 // DB_PASS:letsshopDB
 
-const { MongoClient, ServerApiVersion } = require("mongodb")
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb")
 const uri = 
 `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.rw04ymy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 // `mongodb+srv://<username>:<password>@cluster0.rw04ymy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -40,9 +40,11 @@ async function run() {
             res.send(result);
         })
         //GET single Product by id for Details Page value
-        app.get('/products/:id', async (req, res) => {
+        app.get('/products/:id', async(req, res) => {
             const id = req.params.id;
-            const query = { _id: new ObjectId(id) }
+            // console.log(id);
+            const query = { _id: new ObjectId(id)}
+            // console.log(query);
             const result = await productCollection.findOne(query);
             res.send(result);
         })
