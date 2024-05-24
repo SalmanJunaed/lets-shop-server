@@ -29,33 +29,49 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect()
 
-
-        const reviewCollection = client.db('letsShopDB').collection('reviews'); 
         const productCollection = client.db('letsShopDB').collection('products');
+        const reviewCollection = client.db('letsShopDB').collection('reviews'); 
         const usersCollection = client.db('letsShopDB').collection('users');
 
+        //All Product API
+        //GET All Products 
         app.get('/products', async (req, res) => {
             const result = await productCollection.find().toArray();
             res.send(result);
         })
-
+        //GET single Product by id for Details Page value
+        app.get('/products/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await productCollection.findOne(query);
+            res.send(result);
+        })
+        
+        // All Reviews API
+        //Get ALL Review
         app.get('/reviews', async (req, res) => {
             const result = await reviewCollection.find().toArray();
             res.send(result);
         })
 
-        // User Login POST 
-        // app.post('/users', async (req, res) =>{
-        //     const user = req.body;
-        //     const query = {email: user.email}
-        //     const existingUser = await userCollection.findOne(query);
-        //     if(existingUser){
-        //         return res.send({massage: 'user already exist', insertedId: null})
-        //     }
-        //     const result = await userCollection.insertOne(user);
-        //     res.send(result);
-        // })
+        // All User API
+        //GET All User data 
+        app.get('/users', async (req, res) => {
+            const result = await usersCollection.find().toArray();
+            res.send(result);
+        })
 
+        // POST for a single User Login data  
+        app.post("/users", async (req, res) => {
+            const user = req.body;
+            const query = { email: user.email };
+            const existingUser = await usersCollection.findOne(query);
+            if (existingUser) {
+                return res.send({ massage: "user already exist", insertedId: null });
+            }
+            const result = await usersCollection.insertOne(user);
+            res.send(result);
+        });
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 })
