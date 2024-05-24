@@ -48,6 +48,11 @@ async function run() {
             const result = await productCollection.findOne(query);
             res.send(result);
         })
+        //GET Operation to Count Products
+        app.get('/productsCount', async(req, res)=>{
+            const count = await productCollection.estimatedDocumentCount()
+            res.send({count});
+        })
         
         // All Reviews API
         //Get ALL Review
@@ -74,6 +79,9 @@ async function run() {
             const result = await usersCollection.insertOne(user);
             res.send(result);
         });
+
+
+
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 })
